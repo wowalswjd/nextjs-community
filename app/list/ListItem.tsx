@@ -1,10 +1,33 @@
 "use client";
 
 import Post from "@/models/post";
+import axios from "axios";
 import { WithId } from "mongodb";
 import Link from "next/link";
 
 export default function ListItem({ result }: { result: WithId<Post>[] }) {
+  // 삭제 요청 처리 함수
+  const handleDelete = async (id: string, e: React.MouseEvent<HTMLElement>) => {
+    try {
+      // DELETE 요청
+      await axios.delete("/api/post/delete", {
+        data: { id },
+      });
+
+      // UI에서 항목 삭제 처리
+      const target = e.target as HTMLElement;
+      const parent = target.parentElement;
+      if (parent) {
+        parent.style.opacity = "0";
+        setTimeout(() => {
+          parent.style.display = "none";
+        }, 1000);
+      }
+    } catch (error) {
+      console.error("삭제 요청 실패:", error);
+    }
+  };
+
   return (
     <div>
       {result.map((_, i) => (
@@ -15,21 +38,7 @@ export default function ListItem({ result }: { result: WithId<Post>[] }) {
           <Link href={"/edit/" + result[i]._id}>✏</Link>
           <span
             onClick={(e) => {
-              fetch("/api/post/delete", {
-                method: "DELETE",
-                body: result[i]._id.toString(),
-              })
-                .then((r) => r.json())
-                .then(() => {
-                  const target = e.target as HTMLElement;
-                  const parent = target.parentElement;
-                  if (parent) {
-                    parent.style.opacity = "0";
-                    setTimeout(() => {
-                      parent.style.display = "none";
-                    }, 1000);
-                  }
-                });
+              handleDelete(result[i]._id.toString(), e);
             }}
           >
             🗑️
