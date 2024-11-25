@@ -1,4 +1,10 @@
-const Write = () => {
+import { auth } from "@/auth";
+
+export default async function Write() {
+  const session = await auth();
+  if (session) {
+    console.log("Server : ", session);
+  }
   return (
     <div>
       <h5>작성 페이지</h5>
@@ -9,6 +15,4 @@ const Write = () => {
       </form>
     </div>
   );
-};
-
-export default Write;
+}
