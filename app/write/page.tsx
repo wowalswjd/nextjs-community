@@ -1,7 +1,8 @@
-import { auth } from "@/auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getServerSession } from "next-auth";
 
 export default async function Write() {
-  const session = await auth();
+  let session = await getServerSession(authOptions);
   if (session) {
     console.log("Server : ", session);
   }
