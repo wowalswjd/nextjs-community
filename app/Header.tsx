@@ -7,10 +7,9 @@ import LogoutBtn from "./LogoutBtn";
 
 type HeaderProps = {
   session: Session | null;
-  children: React.ReactNode;
 };
 
-export default function Header({ session, children }: HeaderProps) {
+export default function Header({ session }: HeaderProps) {
   return (
     <div>
       <div className="navbar">
@@ -29,7 +28,6 @@ export default function Header({ session, children }: HeaderProps) {
           <LoginBtn />
         )}
       </div>
-      {children}
     </div>
   );
 }
