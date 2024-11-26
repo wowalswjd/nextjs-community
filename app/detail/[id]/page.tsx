@@ -14,6 +14,7 @@ const Detail = async (props: Props) => {
       const response = await axios.get(
         `http://localhost:3000/api/post/readDetail?id=${id}`
       );
+      console.log(response);
       return response.data;
     } catch (error) {
       if (error instanceof Error) throw new Error(error.message);
@@ -28,6 +29,7 @@ const Detail = async (props: Props) => {
       <h5>상세 페이지</h5>
       <h2>{post.title}</h2>
       <p>{post.content}</p>
+      {post.imgUrl && <img src={post.imgUrl} />}
     </div>
   );
 };
